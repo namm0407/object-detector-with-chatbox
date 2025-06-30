@@ -20,7 +20,7 @@ model, vis_processors, txt_processors = load_model_and_preprocess(
 
 # Load an image (replace with your image path or URL)
 image_path = "dogs.jpg"  # Local file
-# image_url = "https://example.com/image.jpg"  # Or fetch from URL
+# image_path = "https://example.com/image.jpg"  # Or fetch from URL
 
 # Load and preprocess the image
 if image_path.startswith("http"):
