@@ -2,8 +2,6 @@
 
 # For example
 '''
-Enter the path to your image: dogs.jpg
-
 [CAPTION]: A golden retriever sitting in a grassy field.
 
 Ask questions about the image (type 'quit' to exit):
@@ -19,6 +17,8 @@ You: quit
 import torch
 from lavis.models import load_model_and_preprocess
 from PIL import Image
+import requests
+from io import BytesIO
 
 # Load model
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -30,8 +30,18 @@ model, vis_processors, txt_processors = load_model_and_preprocess(
 )
 
 # Load image
-image_path = input("Enter the path to your image (e.g., 'dogs.jpg'): ")
-image = Image.open(image_path).convert("RGB")
+'''
+#get image from user
+image_path = input("Enter the path to your image (e.g., 'dogs.jpg' or 'https://example.com/image.jpg'): ")
+'''
+image_path = "dogs.jpg"  
+
+# Load and preprocess the image
+if image_path.startswith("http"):
+    response = requests.get(image_path)
+    image = Image.open(BytesIO(response.content)).convert("RGB")
+else:
+    image = Image.open(image_path).convert("RGB")
 image_processed = vis_processors["eval"](image).unsqueeze(0).to(device)
 
 # Generate initial caption (optional)
